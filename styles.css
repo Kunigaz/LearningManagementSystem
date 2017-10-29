@@ -167,6 +167,7 @@ h1.main-header {
   font-weight: bold;
   text-transform: uppercase;
   margin: 5px;
+  letter-spacing: 16px;
 }
 
 h3.secondary-header {
