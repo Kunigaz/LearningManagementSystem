@@ -1,30 +1,31 @@
 <!DOCTYPE html>
 
 <!-- Welcome page-->
+<!-- Links @ top right: home about contact login-->
 
 <html>
   <head>
     <meta charset = "utf-8">
 	<title>Welcome</title>
-	<style>
-	  body {
-	    position: absolute;
-	    top: 50%;
-	    left: 50%;
-		margin-right: -50%;
-		transform: translate(-50%, -50%)
-	  }
-	</style>
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet"> 
+    <link rel="stylesheet" type="text/css" href="styles.css">
   </head>
   
   <body>
-    <center>
-	  <a href = "login.html">
-	    <div>
-	    <img src = "clouds.png" alt = "Clouds"
-		style = "width: 550px; height: 300px; border: 0;">
-		</div>
-	  </a>
-    </center>
+    <ul>
+	  <li><a href="login.html">Login</a></li>
+	  <li><a href="contact.html">Contact</a></li>
+	  <li class="dropdown"><a href="welcome.html">About</a>
+		<ul class="dropdown-content">
+          <li><a href="welcome.html">LMS</a></li>
+          <li><a href="team.html">Team</a></li>
+		</ul>
+	  </li>
+	  <li><a href="welcome.html">Home</a></li>
+	</ul>
+	
+	<center>
+	<h1 class="main-header">&#60Insert name of LMS&#62;</h1>
+	</center>
   </body>
 </html>
