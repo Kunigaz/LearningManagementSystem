@@ -212,7 +212,7 @@ input[type=submit] {
   background-color: transparent;
   color: white;
   border: 1px solid white;
-  transition: color: 0.3s, background-color: 0.3s
+  transition: all 0.3s;
 }
 
 .btn-outline-light:hover {
