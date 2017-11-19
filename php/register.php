@@ -1,4 +1,6 @@
 <?php
+//ty codingcage.com
+
 session_start();
 require_once 'class.dbfunct.php';
 

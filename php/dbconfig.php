@@ -3,9 +3,9 @@
 class Database
 {
      
-    private $host = "local";
-    private $db_name = "dbname";
-    private $username = "root";
+    private $host = "0.0.0.0";
+    private $db_name = "c9";
+    private $username = "kunigaz";
     private $password = "";
     public $conn;
      

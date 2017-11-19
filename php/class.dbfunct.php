@@ -1,71 +1,157 @@
 <?php
-session_start();
-require_once 'class.dbfunct.php';
+//code from codingcage.com
 
-$admin = new DBFUNCT();
+//header, includes the DB connect configuration (dbconfig.php)
+require_once 'dbconfig.php';
 
-//if user clicks "Submit Registration" button
-if(isset($_POST['btn-register']))
+class DBFUNCT
 { 
-    $prefix = trim($_POST['acctType']);
-    $ufname = trim($_POST['txtufname']);
-    $ulname = trim($_POST['txtulname']);
-    $email = trim($_POST['txtemail']);
-    $upass = trim($_POST['txtpass']);
-    
-    $stmt = $admin->runQuery("SELECT * FROM tblUsers WHERE userEmail=:email_id");//check if email is already registered
-    $stmt->execute(array(":email_id"=>$email));
-    
-    //if email is registered then do if statement else register the user
-    if($stmt->rowCount() > 0)
+    private $conn;
+ 
+    //connect to the DB
+    public function __construct()
     {
-        $msg = "<div class='alert alert-error'>
-                <button class='close' data-dismiss='alert'>&times;</button>
-                <strong>Sorry!</strong>  email allready exists , Please Try another one
-                </div>";
+        $database = new Database();
+        $db = $database->dbConnection();
+        $this->conn = $db;
     }
-    else
+ 
+    //execute query
+    public function runQuery($sql)
     {
-        if($admin->adminRegister($prefix,$ufname,$ulname,$email,$upass))//register user
-        {   
-            header('Location: ../adminview.html'); //if registration goes well
-        }
-        else //if DB throws exception
-        {
-            echo "sorry, Query could no execute...";
-        }  
+        $stmt = $this->conn->prepare($sql);
+        return $stmt;
     }
-}
+ 
+    //student self registration
+    public function register($ufname,$ulname,$email,$upass)
+    {
+        try
+        {       
+            $password = md5($upass); //turns password into hash
 
-//if user clicks "Add Course" button
-if(isset($_POST['btn-addCourse']))
-{
-    $crn = trim($_POST['txtcrn']);
-    $sub = trim($_POST['crssubj']);
-    $subnum = trim($_POST['txtsubnum']);
-    $instr = trim($_POST['txtinstrID']);
-    
-    $stmt = $admin->runQuery("SELECT * FROM Course WHERE courseNum=:crn_id");//check course is already registered
-    $stmt->execute(array(":crn_id"=>$crn));
-    
-    //if crn already exists then do if statement else register the course
-    if($stmt->rowCount() > 0)
-    {
-        $msg = "<div class='alert alert-error'>
-                <button class='close' data-dismiss='alert'>&times;</button>
-                <strong>Sorry!</strong>  Course number already exists. Please Try another one
-                </div>";
-    }
-    else
-    {
-        if($admin->addCourse($crn,$sub,$subnum,$instr))//register user
-        {   
-            header('Location: ../adminview.html'); //if registration goes well
+            //"prapares" SQL statement for later use
+            $stmt = $this->conn->prepare("INSERT INTO tblUsers(userFirstName,userLastName,userEmail,userPass) 
+                                                    VALUES(:user_fname, :user_lname, :user_mail, :user_pass)");
+   
+            //binds the php variables passed through function to our SQL defined placeholders above
+            $stmt->bindparam(":user_fname",$ufname);
+            $stmt->bindparam(":user_lname",$ulname);
+            $stmt->bindparam(":user_mail",$email);
+            $stmt->bindparam(":user_pass",$password);
+            $stmt->execute(); //executes the previously "prepared" SQL
+            return $stmt;
         }
-        else //if DB throws exception
+        catch(PDOException $ex)
         {
-            echo "sorry, Query could no execute...";
-        }  
+            echo $ex->getMessage();
+        }
+    }  
+ 
+    //registration call for admins
+    public function adminRegister($prefix,$ufname,$ulname,$email,$upass)
+    {
+        try
+        {       
+            $password = md5($upass); //turns password into hash
+            
+            //preemptivly set user prefix based on type of user added
+            switch($prefix)
+            {
+                case "admin":
+                    $prefix = "000";
+                    break;
+                case "staff":
+                    $prefix = "100";
+                    break;
+                default:
+                    $prefix = "900";
+            }
+    
+            //"prapares" SQL statement for later use
+            $stmt = $this->conn->prepare("INSERT INTO tblUsers(userIDPrefix,userFirstName,userLastName,userEmail,userPass) 
+                                                    VALUES(:user_acctType,:user_fname, :user_lname, :user_mail, :user_pass)");
+       
+            //binds the php variables passed through function to our SQL defined placeholders above
+            $stmt->bindparam(":user_acctType",$prefix);
+            $stmt->bindparam(":user_fname",$ufname);
+            $stmt->bindparam(":user_lname",$ulname);
+            $stmt->bindparam(":user_mail",$email);
+            $stmt->bindparam(":user_pass",$password);
+            $stmt->execute(); //executes the previously "prepared" SQL
+            return $stmt;
+        }
+        catch(PDOException $ex)
+        {
+            echo $ex->getMessage();
+        }
+    }
+ 
+    //add course from admin page
+    public function addCourse($crn,$subj,$subnum,$instr)
+    {
+        try
+        {       
+            //"prapares" SQL statement for later use
+            $stmt = $this->conn->prepare("INSERT INTO Course (courseNum,courseSub,subjectNum,staffID) 
+                                                        VALUES(:crs_num, :crs_subj, :crs_subnum, :crs_instr)");
+            
+            //binds the php variables passed through function to our SQL defined placeholders above
+            $stmt->bindparam(":crs_num",$crn);
+            $stmt->bindparam(":crs_subj",$subj);
+            $stmt->bindparam(":crs_subnum",$subnum);
+            $stmt->bindparam(":crs_instr",$instr);
+            $stmt->execute(); //executes the previously "prepared" SQL
+            return $stmt;
+        }
+        catch(PDOException $ex)
+        {
+            echo $ex->getMessage();
+        }
+    }
+ 
+    //function called when user trys to login
+    public function login($email,$upass)
+    {
+        try
+        {
+            //prepare SQL statement
+            $stmt = $this->conn->prepare("SELECT * FROM tblUsers WHERE userEmail=:email_id");
+            $stmt->execute(array(":email_id"=>$email));
+            $userRow=$stmt->fetch(PDO::FETCH_ASSOC); //returns the array indexed by column name as returned in $stmt
+            
+            if($stmt->rowCount() == 1)
+            {
+                if($userRow['userPass']==md5($upass)) //checks against the hash created at registration
+                {
+                    $_SESSION['userType'] = $userRow['userIDPrefix']; //needed to specify the users permissions
+                    $_SESSION['userSession'] = $userRow['userID']; //sets session variable, can be used to verify user is logged in
+                    $_SESSION['userName'] = $userRow['userFirstName']; //get first name
+                    return true;
+                }
+                else
+                {
+                    echo "Wrong password";
+                    exit;
+                }
+            }
+            else
+            {
+                echo "Error";
+                exit;
+            }  
+        }
+        catch(PDOException $ex)
+        {
+            echo $ex->getMessage();
+        }
+    }
+    
+    public function logout()
+    {
+        //dump all session variables
+        session_destroy();
+        $_SESSION['userSession'] = false;
     }
 }
 ?>

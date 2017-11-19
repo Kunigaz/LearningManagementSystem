@@ -1,4 +1,5 @@
 <?php
+//ty codingcage.com
 session_start();
 require_once 'class.dbfunct.php';
 $user_login = new DBFUNCT();
@@ -18,11 +19,10 @@ if(isset($_POST['btn-login']))
                 header("Location: ../adminview.html");
                 break;
             case "100":
-                header("Location: ../staffview.html");
+                header("Location: instructor.php");
                 break;
             case "900":
                 header("Location: ../studentview.html");
-                echo "hey";
                 break;
             default:
                 echo "Please login back in.";
