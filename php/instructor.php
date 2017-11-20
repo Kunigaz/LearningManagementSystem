@@ -12,10 +12,10 @@ $staffid = $_SESSION['userType'];
 $staffid .= $_SESSION['userSession'];
 
 //get courses associated to this staff
-$stmt = $faculty->runQuery("SELECT * FROM Course WHERE staffID=".$staffid);
-$stmt->execute();
-$course = $stmt->fetch(PDO::FETCH_ASSOC);
-
+$stmt = $faculty->runQuery("SELECT * FROM Course WHERE staffID=:staff_id");
+$stmt->execute(array(':staff_id'=>$staffid));
+$course = $stmt->fetchAll();
+$num = $stmt->rowCount();
 ?>
 
 <!DOCTYPE html>
@@ -48,28 +48,30 @@ $course = $stmt->fetch(PDO::FETCH_ASSOC);
             <?php echo "<h3>Welcome " . $name . "</h3>";?>
             <h3>Your Courses</h3>
             <table>
-              <tr>
-                <th>CRN</th>
-                <th>Subject</th>
-                <th>Number</th>
-              </tr>
-              <tr>
-                <td>
+                <tr>
+                    <th>CRN</th>
+                    <th>Subject</th>
+                    <th>Number</th>
+                </tr>
                 <?php
-                    echo $course['courseNum'];
+                    $i=0;
+                    foreach( $course as $row)
+                    {
                 ?>
-                </td>
-                <td>
+                        <tr>
+                        <td>
+                        <font><?php echo $row['courseNum']; ?></font>
+                        </td>
+                        <td>
+                        <font><?php echo $row['courseSub']; ?></font>
+                        </td>
+                        <td>
+                        <font><?php echo $row['subjectNum']; ?></font>
+                        </td>
+                        </tr>
                 <?php
-                    echo $course['courseSub'];
+                    }
                 ?>
-                </td>
-                <td>
-                <?php
-                    echo $course['subjectNum'];
-                ?>
-                </td>
-              </tr>
             </table>
         </div> <!-- /container -->
     </body>

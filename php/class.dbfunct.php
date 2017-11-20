@@ -127,6 +127,8 @@ class DBFUNCT
                     $_SESSION['userType'] = $userRow['userIDPrefix']; //needed to specify the users permissions
                     $_SESSION['userSession'] = $userRow['userID']; //sets session variable, can be used to verify user is logged in
                     $_SESSION['userName'] = $userRow['userFirstName']; //get first name
+                    $_SESSION['userName'] .= " ";
+                    $_SESSION['userName'] .= $userRow['userLastName']; //concatenate last name
                     return true;
                 }
                 else
