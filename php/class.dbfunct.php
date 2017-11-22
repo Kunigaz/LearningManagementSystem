@@ -86,6 +86,27 @@ class DBFUNCT
             echo $ex->getMessage();
         }
     }
+    
+    //enroll in course as student
+    public function enroll($crn,$studntid)
+    {
+        try
+        {       
+            //"prapares" SQL statement for later use
+            $stmt = $this->conn->prepare("INSERT INTO StudentReg (crn,stdntID) 
+                                                        VALUES(:crn_num, :std_id)");
+            
+            //binds the php variables passed through function to our SQL defined placeholders above
+            $stmt->bindparam(":crn_num",$crn);
+            $stmt->bindparam(":std_id",$studntid);
+            $stmt->execute(); //executes the previously "prepared" SQL
+            return $stmt;
+        }
+        catch(PDOException $ex)
+        {
+            echo $ex->getMessage();
+        }
+    }
  
     //add course from admin page
     public function addCourse($crn,$subj,$subnum,$instr)

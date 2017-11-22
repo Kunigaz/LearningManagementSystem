@@ -22,7 +22,7 @@ if(isset($_POST['btn-login']))
                 header("Location: instructor.php");
                 break;
             case "900":
-                header("Location: ../studentview.html");
+                header("Location: student.php");
                 break;
             default:
                 echo "Please login back in.";
