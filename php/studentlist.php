@@ -6,12 +6,27 @@ require_once 'class.dbfunct.php';
 
 $studentlist = new DBFUNCT();
 
-$crnquery = $_POST['txt-crnquery'];
+$crn = $_SESSION['crn'];
 
-$stmt = $studentlist->runQuery("SELECT * FROM tblUsers WHERE CONCAT(userIDPrefix, userID) IN (SELECT stdntID FROM StudentReg WHERE crn=".$crnquery.")");
+//SQL query to get list of enrolled students
+$stmt = $studentlist->runQuery("SELECT * FROM tblUsers 
+                                    WHERE CONCAT(userIDPrefix, userID) 
+                                    IN (SELECT stdntID FROM StudentReg 
+                                            WHERE crn=".$crn.")");
 $stmt->execute(array());
 $students = $stmt->fetchAll();
 
+if(isset($_POST['btn-grade']))
+{
+    $id = trim($_POST['txtstdid']);
+    $asngmt = trim($_POST['txtasgnmt']);
+    $earned = trim($_POST['txtpnts']);
+    $total = trim($_POST['txttotal']);
+    
+    $studentlist->addGrade($crn, $id, $asngmt, $earned, $total);
+    
+    print( "<p>Grade added successfully</p>" );
+}
 ?>
 
 <!DOCTYPE html>
@@ -51,16 +66,20 @@ $students = $stmt->fetchAll();
                     {
                 ?>
                         <tr>
-                        <td><font><?php echo $row['userIDPrefix'].$row['userID']; ?></font></td>
-                        <td><font><?php echo $row['userFirstName']." ".$row['userLastName']; ?></font></td>
+                        <td><font><?php echo $row['userIDPrefix'] .$row['userID']; ?></font></td>
+                        <td><font><?php echo $row['userFirstName'] . " " . $row['userLastName']; ?></font></td>
                         </tr>
                 <?php
                     }
                 ?>
             </table>
             <form method=post>
-                <input type="text" name=""/>
-                <input type="submit" value="Submit"/>
+                <h3>Give student grade:</h3>
+                <input type="text" name="txtstdid" placeholder="Student ID"/>
+                <input type="text" name="txtasgnmt" placeholder="Assignment Name"/>
+                <input type="text" name="txtpnts" placeholder="Points Earned"/>
+                <input type="text" name="txttotal" placeholder="Points Possible"/>
+                <input type="submit" name="btn-grade" value="Submit"/>
             </form>
         </div> <!-- /container -->
     </body>

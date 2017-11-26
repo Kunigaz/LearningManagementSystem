@@ -44,10 +44,10 @@ $num = $stmt->rowCount();
     </head>
     <body id="login">
         <div class="container">
-            <h2>Student Homepage</h2><hr />
+            <h2>Student Homepage</h2><hr  />
             <?php echo "<h3>Welcome " . $name . "</h3>";?>
             <h3>Your Courses</h3>
-            <table>
+            <table style = "background-color: #000; width: 50%;">
                 <tr>
                     <th>CRN</th>
                     <th>Subject</th>
@@ -72,10 +72,28 @@ $num = $stmt->rowCount();
                 <?php
                     }
                 ?>
-            </table><hr />
-            <form class="form-signin" method="post" action="courselist.php">
-                <input class="btn-outline-light larger-btn" type="Submit" value="Register Courses" name="btn-enroll">
-            </form>
+            </table><hr align = "left" width = "50%"  />
+            
+            <div style = "display: inline;">
+                <form method="post" action="courselist.php" style = "display: inline;">
+                   
+                    <input class="btn-outline-light larger-btn" type="Submit" value="Register Courses" name="btn-enroll" style ="width: 200px;">
+                    
+                </form>
+            
+                <form method="post" action="grades.php" style = "display: inline;">
+                    
+                    <input class="btn-outline-light larger-btn" type="Submit" value="View Grades" name="btn-enroll" style ="width: 200px;">
+                    
+                </form>
+                
+                <form method="post" action="logout.php" style = "display: inline;">
+                    
+                    <input class="btn-outline-light larger-btn" type="Submit" value="Logout" name="btn-enroll" style ="width: 200px;">
+                    
+                </form>
+            </div>
+            
         </div> <!-- /container -->
     </body>
 </html>

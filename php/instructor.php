@@ -8,14 +8,18 @@ $faculty = new DBFUNCT();
 
 $name = $_SESSION['userName'];
 //concatenate staff's prefix and ID
-$staffid = $_SESSION['userType'];
-$staffid .= $_SESSION['userSession'];
+$staffid = $_SESSION['userType'] . $_SESSION['userSession'];
 
 //get courses associated to this staff
 $stmt = $faculty->runQuery("SELECT * FROM Course WHERE staffID=:staff_id");
 $stmt->execute(array(':staff_id'=>$staffid));
 $course = $stmt->fetchAll();
-//$num = $stmt->rowCount();
+
+if(isset($_POST['btn-crsrostr'])){
+    $_SESSION['crn'] = $_POST['txtcrn'];
+    header('Location: studentlist.php');   
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -58,23 +62,17 @@ $course = $stmt->fetchAll();
                     {
                 ?>
                         <tr>
-                        <td>
-                        <font><?php echo $row['courseNum']; ?></font>
-                        </td>
-                        <td>
-                        <font><?php echo $row['courseSub']; ?></font>
-                        </td>
-                        <td>
-                        <font><?php echo $row['subjectNum']; ?></font>
-                        </td>
+                        <td><font><?php echo $row['courseNum']; ?></font></td>
+                        <td><font><?php echo $row['courseSub']; ?></font></td>
+                        <td><font><?php echo $row['subjectNum']; ?></font></td>
                         </tr>
                 <?php
                     }
                 ?>
             </table>
-            <form method="post" action="studentlist.php">
-                <input type="text" name="txt-crnquery" placeholder="Enter CRN for course roster you wish to view"/>
-                <input type="submit" value="Submit"/>
+            <form method="post">
+                <input type="text" name="txtcrn" placeholder="Enter CRN for course roster you wish to view"/>
+                <input type="submit" value="Submit" name="btn-crsrostr"/>
             </form>
         </div> <!-- /container -->
     </body>

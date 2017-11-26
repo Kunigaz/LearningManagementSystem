@@ -131,6 +131,28 @@ class DBFUNCT
         }
     }
  
+    public function addGrade($crn, $id, $asngmt, $earned, $total)
+    {
+        try
+        {       
+            //"prapares" SQL statement for later use
+            $stmt = $this->conn->prepare("INSERT INTO Grade (crn,stdntID,assignmentName,pntsGiven,pntsPossbl) 
+                                                        VALUES(:crs_num, :std_id, :asgnmt_name, :pnts_earned, :pnts_pos)");
+            
+            //binds the php variables passed through function to our SQL defined placeholders above
+            $stmt->bindparam(":crs_num",$crn);
+            $stmt->bindparam(":std_id",$id);
+            $stmt->bindparam(":asgnmt_name",$asngmt);
+            $stmt->bindparam(":pnts_earned",$earned);
+            $stmt->bindparam(":pnts_pos",$total);
+            $stmt->execute(); //executes the previously "prepared" SQL
+            return $stmt;
+        }
+        catch(PDOException $ex)
+        {
+            echo $ex->getMessage();
+        }
+    }
     //function called when user trys to login
     public function login($email,$upass)
     {
