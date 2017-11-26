@@ -24,6 +24,7 @@ $num = $stmt->rowCount();
 
 <html>
     <head>
+    
     <style>
         table {
             font-family: arial, sans-serif;
@@ -36,11 +37,10 @@ $num = $stmt->rowCount();
             text-align: left;
             padding: 8px;
         }
-
-        tr:nth-child(even) {
-            background-color: #dddddd;
-        }
     </style>
+   
+    
+    <link rel="stylesheet" type="text/css" href="../styles.css">
     </head>
     <body id="login">
         <div class="container">
@@ -74,7 +74,7 @@ $num = $stmt->rowCount();
                 ?>
             </table><hr />
             <form class="form-signin" method="post" action="courselist.php">
-                <button class="btn btn-large btn-primary" type="submit" name="btn-enroll">Register classes</button>
+                <input class="btn-outline-light larger-btn" type="Submit" value="Register Courses" name="btn-enroll">
             </form>
         </div> <!-- /container -->
     </body>

@@ -15,7 +15,7 @@ $staffid .= $_SESSION['userSession'];
 $stmt = $faculty->runQuery("SELECT * FROM Course WHERE staffID=:staff_id");
 $stmt->execute(array(':staff_id'=>$staffid));
 $course = $stmt->fetchAll();
-$num = $stmt->rowCount();
+//$num = $stmt->rowCount();
 ?>
 
 <!DOCTYPE html>
@@ -54,13 +54,12 @@ $num = $stmt->rowCount();
                     <th>Number</th>
                 </tr>
                 <?php
-                    $i=0;
                     foreach( $course as $row)
                     {
                 ?>
                         <tr>
                         <td>
-                        <font><a href="www.bb.uhd.edu"><?php echo $row['courseNum']; ?></a></font>
+                        <font><?php echo $row['courseNum']; ?></font>
                         </td>
                         <td>
                         <font><?php echo $row['courseSub']; ?></font>
@@ -73,6 +72,10 @@ $num = $stmt->rowCount();
                     }
                 ?>
             </table>
+            <form method="post" action="studentlist.php">
+                <input type="text" name="txt-crnquery" placeholder="Enter CRN for course roster you wish to view"/>
+                <input type="submit" value="Submit"/>
+            </form>
         </div> <!-- /container -->
     </body>
 </html>
