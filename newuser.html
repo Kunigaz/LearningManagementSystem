@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>New Student Register</title>
+        <link rel="stylesheet" type="text/css" href="styles.css">
+    </head>
+    
+    <body id="login">
+        <div class="container" style ="display: inline;">
+            <form class="form-signin" method="post" action="/php/register.php" style ="display: inline;">
+            <h2 class="form-signin-heading">New Student Register</h2><hr />
+            <fontm style = "color: white">**this is an unsecure database please enter pseudo variables if you would like to register**</font>
+            <input type="text" class="input-block-level" placeholder="First name" name="txtufname" required />
+            <input type="text" class="input-block-level" placeholder="Last name" name="txtulname" required />
+            <input type="text" class="input-block-level" placeholder="Email address" name="txtemail" required />
+            <input type="password" class="input-block-level" placeholder="Password" name="txtpass" required />
+            <hr />
+            <input class="btn-outline-light larger-btn" type="Submit" value="Complete Registration" name="btn-register" style ="width: 300px;">
+            <a href="login.html" style="float:right;" class="btn btn-large">Login</a>
+            </form>
+        </div> <!-- /container -->
+    </body>
+</html>

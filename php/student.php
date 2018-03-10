@@ -7,15 +7,18 @@ require_once 'class.dbfunct.php';
 $student = new DBFUNCT();
 
 $name = $_SESSION['userName'];
-//concatenate staff's prefix and ID
-$stuid = $_SESSION['userType'];
-$stuid .= $_SESSION['userSession'];
+//concatenate student's prefix and ID
+$stuid = $_SESSION['userType'] . $_SESSION['userSession'];
 
 //get courses associated to this staff
 $stmt = $student->runQuery("SELECT * FROM Course WHERE courseNum IN (SELECT crn FROM StudentReg WHERE stdntID=:stu_id)");
 $stmt->execute(array(':stu_id'=>$stuid));
 $course = $stmt->fetchAll();
-$num = $stmt->rowCount();
+
+if(isset($_POST['btn-logout']))
+{
+    $student->logout();
+}
 ?>
 
 <!DOCTYPE html>
@@ -54,20 +57,13 @@ $num = $stmt->rowCount();
                     <th>Number</th>
                 </tr>
                 <?php
-                    $i=0;
                     foreach( $course as $row)
                     {
                 ?>
                         <tr>
-                        <td>
-                        <font><?php echo $row['courseNum']; ?></font>
-                        </td>
-                        <td>
-                        <font><?php echo $row['courseSub']; ?></font>
-                        </td>
-                        <td>
-                        <font><?php echo $row['subjectNum']; ?></font>
-                        </td>
+                        <td><font><?php echo $row['courseNum']; ?></font></td>
+                        <td><font><?php echo $row['courseSub']; ?></font></td>
+                        <td><font><?php echo $row['subjectNum']; ?></font></td>
                         </tr>
                 <?php
                     }
@@ -83,13 +79,13 @@ $num = $stmt->rowCount();
             
                 <form method="post" action="grades.php" style = "display: inline;">
                     
-                    <input class="btn-outline-light larger-btn" type="Submit" value="View Grades" name="btn-enroll" style ="width: 200px;">
+                    <input class="btn-outline-light larger-btn" type="Submit" value="View Grades" name="btn-grades" style ="width: 200px;">
                     
                 </form>
                 
-                <form method="post" action="logout.php" style = "display: inline;">
+                <form method="post" style = "display: inline;">
                     
-                    <input class="btn-outline-light larger-btn" type="Submit" value="Logout" name="btn-enroll" style ="width: 200px;">
+                    <input class="btn-outline-light larger-btn" type="Submit" value="Logout" name="btn-logout" style ="width: 200px;">
                     
                 </form>
             </div>

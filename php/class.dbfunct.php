@@ -197,6 +197,7 @@ class DBFUNCT
         //dump all session variables
         session_destroy();
         $_SESSION['userSession'] = false;
+        header('Location: ../index.html');
     }
 }
 ?>

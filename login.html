@@ -27,18 +27,16 @@
 	
     <center>
 	<h3 class="secondary-header header-underline">Login</h3>
-	<form method="post" action="https://bb.uhd.edu/">
+	<form method="post" action="/php/login.php">
 	  <div class="form-group">
-	    <label>Username:</label>
-	    <input name="username" type="text" size="25">
+	    <input name="email" type="text" size="25"  placeholder="Email">
 	  </div>
 	  <div class="form-group">
-	    <label>Password:</label>
-        <input name="password" type="password" size="25">
+        <input name="password" type="password" size="25" placeholder="Password">
 	  </div>
       <div class="login">
-	    <input class="btn-outline-light larger-btn" type="submit" value="Login">
-	    <a href="#">Register</a>
+	    <input class="btn-outline-light larger-btn" type="submit" value="Login" name="btn-login">
+	    <a href="newuser.html">Register</a>
 	  </div>
 	</form>
 	</center>

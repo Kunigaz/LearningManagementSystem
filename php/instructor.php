@@ -20,6 +20,10 @@ if(isset($_POST['btn-crsrostr'])){
     header('Location: studentlist.php');   
 }
 
+if(isset($_POST['btn-logout']))
+{
+    $faculty->logout();
+}
 ?>
 
 <!DOCTYPE html>
@@ -40,18 +44,16 @@ if(isset($_POST['btn-crsrostr'])){
             text-align: left;
             padding: 8px;
         }
-
-        tr:nth-child(even) {
-            background-color: #dddddd;
-        }
     </style>
+    
+    <link rel="stylesheet" type="text/css" href="../styles.css">
     </head>
     <body id="login">
         <div class="container">
             <h2>Instructor Homepage</h2><hr />
             <?php echo "<h3>Welcome " . $name . "</h3>";?>
             <h3>Your Courses</h3>
-            <table>
+            <table style = "background-color: #000; width: 50%;">
                 <tr>
                     <th>CRN</th>
                     <th>Subject</th>
@@ -70,10 +72,20 @@ if(isset($_POST['btn-crsrostr'])){
                     }
                 ?>
             </table>
-            <form method="post">
-                <input type="text" name="txtcrn" placeholder="Enter CRN for course roster you wish to view"/>
-                <input type="submit" value="Submit" name="btn-crsrostr"/>
+            
+            </br>
+            
+            <form method="post" style = "display: inline;">
+                <input type="text" name="txtcrn" placeholder="Enter CRN for course roster you wish to view" style ="width: 500px;"/>
+                <input class="btn-outline-light larger-btn" type="submit" value="Submit" name="btn-crsrostr" style ="width: 200px;"/>
             </form>
+            
+            <form method="post" style = "display: inline;">
+                    
+                <input class="btn-outline-light larger-btn" type="Submit" value="Logout" name="btn-logout" style ="width: 200px;">
+                    
+            </form>
+            
         </div> <!-- /container -->
     </body>
 </html>

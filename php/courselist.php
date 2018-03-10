@@ -11,14 +11,13 @@ $stdntid = $_SESSION['userType'] . $_SESSION['userSession'];
 $stmt = $courselist->runQuery("SELECT * FROM Course");
 $stmt->execute(array());
 $courses = $stmt->fetchAll();
-$num = $stmt->rowCount();
 
 if(isset($_POST['btn-add']))
 {
     $crn = $_POST['txt-crn'];
     $courselist->enroll($crn,$stdntid);
     
-    print( "<p>Registration successful</p>" );
+    echo "<p>Registration successful</p>";
 }
 ?>
 

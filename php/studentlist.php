@@ -25,7 +25,7 @@ if(isset($_POST['btn-grade']))
     
     $studentlist->addGrade($crn, $id, $asngmt, $earned, $total);
     
-    print( "<p>Grade added successfully</p>" );
+    echo "<p>Grade added successfully</p>";
 }
 ?>
 
@@ -36,7 +36,7 @@ if(isset($_POST['btn-grade']))
 <html>
     <head>
     <style>
-        table {
+          table {
             font-family: arial, sans-serif;
             border-collapse: collapse;
             width: 100%;
@@ -47,16 +47,13 @@ if(isset($_POST['btn-grade']))
             text-align: left;
             padding: 8px;
         }
-
-        tr:nth-child(even) {
-            background-color: #dddddd;
-        }
     </style>
+    <link rel="stylesheet" type="text/css" href="../styles.css">
     </head>
     <body id="login">
         <div class="container">
             <?php echo "<h3>Students Enrolled in this course</h3>";?>
-            <table>
+            <table style = "background-color: #000; width: 50%;">
                 <tr>
                     <th>Student ID</th>
                     <th>Student Name</th>
@@ -73,13 +70,17 @@ if(isset($_POST['btn-grade']))
                     }
                 ?>
             </table>
-            <form method=post>
+            <form method=post style = "display: inline;">
                 <h3>Give student grade:</h3>
                 <input type="text" name="txtstdid" placeholder="Student ID"/>
                 <input type="text" name="txtasgnmt" placeholder="Assignment Name"/>
                 <input type="text" name="txtpnts" placeholder="Points Earned"/>
                 <input type="text" name="txttotal" placeholder="Points Possible"/>
-                <input type="submit" name="btn-grade" value="Submit"/>
+                <input class="btn-outline-light larger-btn" type="submit" name="btn-grade" value="Submit" style = "width: 100px"/>
+            </form>
+            
+            <form action='instructor.php'>
+                <input class="btn-outline-light larger-btn" type='submit' name='btn-back' value='Back to Home' style ="width: 200px;">
             </form>
         </div> <!-- /container -->
     </body>
