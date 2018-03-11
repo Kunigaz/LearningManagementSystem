@@ -11,5 +11,5 @@ A small website built to simulate a learning management system (LMS) like BlackB
 * Rafael Loredo - *Back End Programmer*
 
 **Acknowledgements**
-* [W3Schools] (https://www.w3schools.com/)
-* [Coding Cage] (http://www.codingcage.com/)
+* [W3Schools](https://www.w3schools.com/)
+* [Coding Cage](http://www.codingcage.com/)
