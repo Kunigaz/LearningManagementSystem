@@ -9,3 +9,7 @@ A small website built to simulate a learning management system (LMS) like BlackB
 * Kevin Abrego - *Back End Lead*
 * Ladi Olayinka - *Front End Programmer*
 * Rafael Loredo - *Back End Programmer*
+
+**Acknowledgements**
+* [W3Schools] (https://www.w3schools.com/)
+* [Coding Cage] (http://www.codingcage.com/)
